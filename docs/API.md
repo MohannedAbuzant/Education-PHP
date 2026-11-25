@@ -55,7 +55,7 @@ Response `200`:
 ```
 
 Send the token on every other request as `Authorization: Bearer <token>`.
-Login is rate limited to **5 attempts per minute** per client and returns `429`
+Login is rate limited to **5 attempts per minute** per IP address and returns `429`
 after that. Wrong credentials return `401`.
 
 ## Courses
@@ -126,7 +126,7 @@ test that runs eight PHP processes at once against MySQL.
 
 ### `GET /api/me/enrollments` (student)
 
-Lists your own registrations, newest first, with the course included.
+Lists your own registrations with the course included, most recently changed first.
 
 ### `DELETE /api/enrollments/{enrollment}` (owner)
 

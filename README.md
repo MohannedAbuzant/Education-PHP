@@ -116,8 +116,8 @@ After setting it, run `php artisan sentry:test` once to confirm an event arrives
 
 ## CI
 
-GitHub Actions (`.github/workflows/ci.yml`) runs on every push to `main` and on
-pull requests: PHP tests on SQLite with a Pint style check, the full PHP suite
+GitHub Actions (`.github/workflows/ci.yml`) runs on every push and on
+pull requests to `main`: PHP tests on SQLite with a Pint style check, the full PHP suite
 against MySQL 8.4 (including the concurrency test), and the front-end lint,
 format, type check and component tests.
 

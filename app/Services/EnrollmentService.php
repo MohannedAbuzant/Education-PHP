@@ -35,7 +35,7 @@ class EnrollmentService
                 throw new AlreadyEnrolledException;
             }
 
-            if ($locked->activeEnrollments()->count() >= $locked->seats) {
+            if ($locked->seatsLeft() === 0) {
                 throw new CourseFullException;
             }
 

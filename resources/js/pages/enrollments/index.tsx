@@ -1,16 +1,16 @@
+import ConfirmDialog from '@/components/confirm-dialog';
+import FlashStatus from '@/components/flash-status';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type Enrollment, type SharedData } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { ENROLLMENT_ACTIVE, type BreadcrumbItem, type Enrollment } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'My registrations', href: '/my-enrollments' }];
 
 export default function MyEnrollments({ enrollments }: { enrollments: Enrollment[] }) {
-    const { flash } = usePage<SharedData>().props;
     const [toCancel, setToCancel] = useState<Enrollment | null>(null);
 
     const confirmCancel = () => {
@@ -28,7 +28,7 @@ export default function MyEnrollments({ enrollments }: { enrollments: Enrollment
             <div className="space-y-6 p-4 md:p-6">
                 <Heading title="My registrations" description="Courses you have registered for" />
 
-                {flash.status && <p className="rounded-md border border-green-600/30 bg-green-600/10 px-3 py-2 text-sm">{flash.status}</p>}
+                <FlashStatus />
 
                 {enrollments.length === 0 ? (
                     <p className="text-muted-foreground text-sm">
@@ -47,8 +47,8 @@ export default function MyEnrollments({ enrollments }: { enrollments: Enrollment
                                     <p className="text-muted-foreground text-sm">Starts {enrollment.course.starts_at}</p>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <Badge variant={enrollment.status === 'active' ? 'default' : 'secondary'}>{enrollment.status}</Badge>
-                                    {enrollment.status === 'active' && (
+                                    <Badge variant={enrollment.status === ENROLLMENT_ACTIVE ? 'default' : 'secondary'}>{enrollment.status}</Badge>
+                                    {enrollment.status === ENROLLMENT_ACTIVE && (
                                         <Button variant="outline" size="sm" onClick={() => setToCancel(enrollment)}>
                                             Cancel
                                         </Button>
@@ -60,24 +60,15 @@ export default function MyEnrollments({ enrollments }: { enrollments: Enrollment
                 )}
             </div>
 
-            <Dialog open={toCancel !== null} onOpenChange={(open) => !open && setToCancel(null)}>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Cancel this registration?</DialogTitle>
-                        <DialogDescription>
-                            You will give up your seat in {toCancel?.course.title}. You can register again later if a seat is free.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                        <Button variant="outline" onClick={() => setToCancel(null)}>
-                            Keep my seat
-                        </Button>
-                        <Button variant="destructive" onClick={confirmCancel}>
-                            Cancel registration
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+            <ConfirmDialog
+                open={toCancel !== null}
+                title="Cancel this registration?"
+                description={`You will give up your seat in ${toCancel?.course.title ?? ''}. You can register again later if a seat is free.`}
+                confirmLabel="Cancel registration"
+                dismissLabel="Keep my seat"
+                onConfirm={confirmCancel}
+                onDismiss={() => setToCancel(null)}
+            />
         </AppLayout>
     );
 }
