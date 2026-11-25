@@ -1,25 +1,48 @@
-# Laravel + React Starter Kit
+# Course Portal
 
-## Introduction
+A small course registration portal for a training academy. Admins manage
+courses; students register for them and cancel, subject to a seat limit.
 
-Our React starter kit provides a robust, modern starting point for building Laravel applications with a React frontend using [Inertia](https://inertiajs.com).
+**Stack:** Laravel 13, PHP 8.3, MySQL, Inertia, React, TypeScript, Tailwind,
+shadcn/ui. Laravel Sanctum for the API (planned), Docker via Laravel Sail.
 
-Inertia allows you to build modern, single-page React applications using classic server-side routing and controllers. This lets you enjoy the frontend power of React combined with the incredible backend productivity of Laravel and lightning-fast Vite compilation.
+## Getting started
 
-This React starter kit utilizes React 19, TypeScript, Tailwind, and the [shadcn/ui](https://ui.shadcn.com) component library.
+```bash
+cp .env.example .env
+composer install
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
+```
 
-## Official Documentation
+Seeded accounts (password `password`): `admin@example.com` (admin) and
+`student@example.com` (student).
 
-Documentation for all Laravel starter kits can be found on the [Laravel website](https://laravel.com/docs/starter-kits).
+Run tests: `php artisan test`. Tests use in-memory SQLite, so they need no database.
 
-## Contributing
+## User stories
 
-Thank you for considering contributing to our starter kit! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. As an **admin**, I can create, edit and delete courses, so the catalogue stays current.
+2. As an **admin**, I can set a seat limit on each course, so classes are not overbooked.
+3. As a **student**, I can browse courses and see how many seats are left, so I can choose one.
+4. As a **student**, I can register for a course with free seats, so I secure my place.
+5. As a **student**, I can cancel my registration and register again later, so I can change my mind.
 
-## Code of Conduct
+## Rules
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- A full course, or a second active registration for the same course, returns 409.
+- A wrong role or another student's record returns 403. Invalid input returns 422.
+- Registration locks the course row in a transaction, so two students cannot take the last seat.
+- Cancelling sets the status to `cancelled`; registering again reuses that row.
 
-## License
+## Roadmap
 
-The Laravel + React starter kit is open-sourced software licensed under the MIT license.
+1. Setup, login, roles (done)
+2. Data model and admin course screens
+3. Registration and cancellation
+4. REST API with Sanctum
+5. Tests and CI
+6. Deployment, Sentry, API docs
