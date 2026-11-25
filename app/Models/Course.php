@@ -14,6 +14,8 @@ class Course extends Model
     /** @use HasFactory<CourseFactory> */
     use HasFactory;
 
+    public const HAS_ENROLLMENTS_MESSAGE = 'This course has enrollments and cannot be deleted.';
+
     protected $fillable = [
         'title',
         'description',
@@ -29,14 +31,13 @@ class Course extends Model
         ];
     }
 
-    public const HAS_ENROLLMENTS_MESSAGE = 'This course has enrollments and cannot be deleted.';
-
     /**
-     * Adds an `enrolled` count of active registrations to each course.
+     * Adds an `enrolled` count to each course. Only ACTIVE registrations are
+     * counted: cancelled ones have given their seat back.
      *
      * @param  Builder<Course>  $query
      */
-    public function scopeWithEnrolled(Builder $query): void
+    public function scopeWithActiveEnrolled(Builder $query): void
     {
         $query->withCount('activeEnrollments as enrolled');
     }

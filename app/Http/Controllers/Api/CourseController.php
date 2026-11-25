@@ -14,7 +14,7 @@ class CourseController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $courses = Course::query()
-            ->withEnrolled()
+            ->withActiveEnrolled()
             ->orderBy('starts_at')
             ->paginate(15);
 
