@@ -1,11 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/react-starter-kit",
+    "name": "mohannedabuzant/course-portal",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A course registration portal for a training academy: Laravel, Inertia, React and a Sanctum REST API.",
     "keywords": [
         "laravel",
-        "framework"
+        "inertia",
+        "react",
+        "course-registration"
     ],
     "license": "MIT",
     "require": {
