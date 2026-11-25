@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import AppLayout from '@/layouts/app-layout';
 import { ENROLLMENT_ACTIVE, ENROLLMENT_CANCELLED, type BreadcrumbItem, type CatalogCourse, type Paginated, type SharedData } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
+import { RotateCcw, UserPlus } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Catalog', href: '/catalog' }];
 
@@ -52,7 +53,17 @@ export default function Catalog({ courses }: { courses: Paginated<CatalogCourse>
                                             <Badge>Registered</Badge>
                                         ) : (
                                             <Button onClick={() => register(course)} disabled={full}>
-                                                {course.my_status === ENROLLMENT_CANCELLED ? 'Register again' : 'Register'}
+                                                {course.my_status === ENROLLMENT_CANCELLED ? (
+                                                    <>
+                                                        <RotateCcw aria-hidden />
+                                                        Register again
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <UserPlus aria-hidden />
+                                                        Register
+                                                    </>
+                                                )}
                                             </Button>
                                         )}
                                     </CardFooter>
