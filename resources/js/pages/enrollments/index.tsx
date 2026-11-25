@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { ENROLLMENT_ACTIVE, type BreadcrumbItem, type Enrollment } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
+import { CircleX } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'My registrations', href: '/my-enrollments' }];
@@ -57,6 +58,7 @@ export default function MyEnrollments({ enrollments }: { enrollments: Enrollment
                                     <Badge variant={enrollment.status === ENROLLMENT_ACTIVE ? 'default' : 'secondary'}>{enrollment.status}</Badge>
                                     {enrollment.status === ENROLLMENT_ACTIVE && (
                                         <Button variant="outline" size="sm" onClick={() => askToCancel(enrollment)}>
+                                            <CircleX aria-hidden />
                                             Cancel
                                         </Button>
                                     )}
