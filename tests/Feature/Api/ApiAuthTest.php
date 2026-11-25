@@ -54,4 +54,16 @@ class ApiAuthTest extends TestCase
         $this->postJson('/api/login', ['email' => 'x@example.com', 'password' => 'wrong'])
             ->assertStatus(429);
     }
+
+    public function test_errors_do_not_leak_stack_traces_when_debug_is_off(): void
+    {
+        config(['app.debug' => false]);
+
+        $this->postJson('/api/login', ['email' => 'x@example.com', 'password' => 'wrong'])
+            ->assertUnauthorized()
+            ->assertJsonMissing(['exception'])
+            ->assertJsonMissingPath('trace');
+
+        $this->getJson('/api/nope')->assertNotFound()->assertJsonMissingPath('trace');
+    }
 }
