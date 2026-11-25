@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
+import { DOCUMENTATION_URL, REPOSITORY_URL } from '@/lib/links';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
@@ -26,12 +27,12 @@ const mainNavItems: NavItem[] = [
 const rightNavItems: NavItem[] = [
     {
         title: 'Repository',
-        url: 'https://github.com/laravel/react-starter-kit',
+        url: REPOSITORY_URL,
         icon: Folder,
     },
     {
         title: 'Documentation',
-        url: 'https://laravel.com/docs/starter-kits',
+        url: DOCUMENTATION_URL,
         icon: BookOpen,
     },
 ];

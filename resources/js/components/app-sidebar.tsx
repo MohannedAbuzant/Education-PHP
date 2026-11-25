@@ -2,6 +2,7 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { DOCUMENTATION_URL, REPOSITORY_URL } from '@/lib/links';
 import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, ClipboardList, Folder, GraduationCap, LayoutGrid, Library } from 'lucide-react';
@@ -39,12 +40,12 @@ const studentNavItems: NavItem[] = [
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
-        url: 'https://github.com/laravel/react-starter-kit',
+        url: REPOSITORY_URL,
         icon: Folder,
     },
     {
         title: 'Documentation',
-        url: 'https://laravel.com/docs/starter-kits',
+        url: DOCUMENTATION_URL,
         icon: BookOpen,
     },
 ];
