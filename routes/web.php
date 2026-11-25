@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EnrollmentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,8 +15,15 @@ Route::middleware(['auth'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::middleware('admin')->group(function () {
+    Route::middleware('role:admin')->group(function () {
         Route::resource('courses', CourseController::class)->except('show');
+    });
+
+    Route::middleware('role:student')->group(function () {
+        Route::get('catalog', [CatalogController::class, 'index'])->name('catalog.index');
+        Route::get('my-enrollments', [EnrollmentController::class, 'index'])->name('enrollments.index');
+        Route::post('courses/{course}/enrollments', [EnrollmentController::class, 'store'])->name('enrollments.store');
+        Route::delete('enrollments/{enrollment}', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
     });
 });
 

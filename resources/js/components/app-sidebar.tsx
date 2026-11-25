@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, GraduationCap, LayoutGrid } from 'lucide-react';
+import { BookOpen, ClipboardList, Folder, GraduationCap, LayoutGrid, Library } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -23,6 +23,19 @@ const adminNavItems: NavItem[] = [
     },
 ];
 
+const studentNavItems: NavItem[] = [
+    {
+        title: 'Catalog',
+        url: '/catalog',
+        icon: Library,
+    },
+    {
+        title: 'My registrations',
+        url: '/my-enrollments',
+        icon: ClipboardList,
+    },
+];
+
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
@@ -38,7 +51,7 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const { auth } = usePage<SharedData>().props;
-    const navItems = auth.user.role === 'admin' ? [...mainNavItems, ...adminNavItems] : mainNavItems;
+    const navItems = [...mainNavItems, ...(auth.user.role === 'admin' ? adminNavItems : studentNavItems)];
 
     return (
         <Sidebar collapsible="icon" variant="inset">
