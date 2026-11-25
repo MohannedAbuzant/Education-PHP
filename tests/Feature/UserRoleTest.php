@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Enums\Role;
 use App\Models\User;
@@ -26,7 +26,7 @@ class UserRoleTest extends TestCase
 
     public function test_registration_cannot_set_role(): void
     {
-        $this->post('/register', [
+        $response = $this->post('/register', [
             'name' => 'New',
             'email' => 'new@example.com',
             'password' => 'password',
@@ -34,6 +34,8 @@ class UserRoleTest extends TestCase
             'role' => 'admin',
         ]);
 
+        $response->assertRedirect();
+        $this->assertAuthenticated();
         $this->assertSame(Role::Student, User::firstWhere('email', 'new@example.com')->role);
     }
 }

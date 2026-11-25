@@ -10,7 +10,7 @@ shadcn/ui. Laravel Sanctum for the API (planned), Docker via Laravel Sail.
 
 ```bash
 cp .env.example .env
-composer install
+composer install   # needs PHP 8.3+ and Composer on the host; Sail then runs the app
 ./vendor/bin/sail up -d
 ./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail artisan migrate --seed
@@ -21,7 +21,7 @@ composer install
 Seeded accounts (password `password`): `admin@example.com` (admin) and
 `student@example.com` (student).
 
-Run tests: `php artisan test`. Tests use in-memory SQLite, so they need no database.
+Run tests: `./vendor/bin/sail artisan test` (or `php artisan test` with PHP 8.3+ on the host). Tests use in-memory SQLite, so they need no database.
 
 ## User stories
 
