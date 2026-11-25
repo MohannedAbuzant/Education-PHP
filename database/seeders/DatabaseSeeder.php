@@ -15,6 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // This seeder creates demo data with Faker, a dev-only package.
+        // In production, create the first admin with `php artisan admin:create`.
+        if (app()->isProduction()) {
+            $this->command?->warn('Demo seeding is disabled in production. Use admin:create instead.');
+
+            return;
+        }
+
         // User::factory(10)->create();
 
         User::factory()->admin()->create([

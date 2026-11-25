@@ -14,7 +14,7 @@ class CourseController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $courses = Course::query()
-            ->withCount('activeEnrollments as enrolled')
+            ->withEnrolled()
             ->orderBy('starts_at')
             ->paginate(15);
 
@@ -42,8 +42,8 @@ class CourseController extends Controller
 
     public function destroy(Course $course): JsonResponse
     {
-        if ($course->enrollments()->exists()) {
-            return response()->json(['message' => 'This course has enrollments and cannot be deleted.'], 409);
+        if ($course->hasEnrollments()) {
+            return response()->json(['message' => Course::HAS_ENROLLMENTS_MESSAGE], 409);
         }
 
         $course->delete();

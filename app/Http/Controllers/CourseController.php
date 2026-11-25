@@ -13,7 +13,7 @@ class CourseController extends Controller
     public function index(): Response
     {
         $courses = Course::query()
-            ->withCount('activeEnrollments as enrolled')
+            ->withEnrolled()
             ->orderBy('starts_at')
             ->paginate(10);
 
@@ -46,8 +46,8 @@ class CourseController extends Controller
 
     public function destroy(Course $course): RedirectResponse
     {
-        if ($course->enrollments()->exists()) {
-            return back()->withErrors(['course' => 'This course has enrollments and cannot be deleted.']);
+        if ($course->hasEnrollments()) {
+            return back()->withErrors(['course' => Course::HAS_ENROLLMENTS_MESSAGE]);
         }
 
         $course->delete();

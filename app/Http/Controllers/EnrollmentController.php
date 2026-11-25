@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AlreadyEnrolledException;
+use App\Exceptions\CourseFullException;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Services\EnrollmentService;
@@ -10,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class EnrollmentController extends Controller
 {
@@ -40,7 +41,7 @@ class EnrollmentController extends Controller
     {
         try {
             $this->enrollments->register($request->user(), $course);
-        } catch (ConflictHttpException $e) {
+        } catch (AlreadyEnrolledException|CourseFullException $e) {
             return back()->withErrors(['enrollment' => $e->getMessage()]);
         }
 

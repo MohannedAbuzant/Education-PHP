@@ -1,8 +1,10 @@
+import ConfirmDialog from '@/components/confirm-dialog';
+import FlashStatus from '@/components/flash-status';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import Pagination from '@/components/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type Course, type Paginated, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
@@ -11,7 +13,7 @@ import { useState } from 'react';
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Courses', href: '/courses' }];
 
 export default function CourseIndex({ courses }: { courses: Paginated<Course> }) {
-    const { flash, errors } = usePage<SharedData & { errors: Record<string, string> }>().props;
+    const { errors } = usePage<SharedData & { errors: Record<string, string> }>().props;
     const [toDelete, setToDelete] = useState<Course | null>(null);
 
     const confirmDelete = () => {
@@ -34,7 +36,7 @@ export default function CourseIndex({ courses }: { courses: Paginated<Course> })
                     </Button>
                 </div>
 
-                {flash.status && <p className="rounded-md border border-green-600/30 bg-green-600/10 px-3 py-2 text-sm">{flash.status}</p>}
+                <FlashStatus />
                 <InputError message={errors.course} />
 
                 {courses.data.length === 0 ? (
@@ -79,37 +81,18 @@ export default function CourseIndex({ courses }: { courses: Paginated<Course> })
                     </div>
                 )}
 
-                {courses.last_page > 1 && (
-                    <nav className="flex flex-wrap gap-1">
-                        {courses.links.map((link, i) =>
-                            link.url ? (
-                                <Button key={i} variant={link.active ? 'default' : 'outline'} size="sm" asChild>
-                                    <Link href={link.url} preserveScroll dangerouslySetInnerHTML={{ __html: link.label }} />
-                                </Button>
-                            ) : (
-                                <Button key={i} variant="outline" size="sm" disabled dangerouslySetInnerHTML={{ __html: link.label }} />
-                            ),
-                        )}
-                    </nav>
-                )}
+                <Pagination page={courses} />
             </div>
 
-            <Dialog open={toDelete !== null} onOpenChange={(open) => !open && setToDelete(null)}>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Delete this course?</DialogTitle>
-                        <DialogDescription>{toDelete?.title} will be removed. A course that has registrations cannot be deleted.</DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                        <Button variant="outline" onClick={() => setToDelete(null)}>
-                            Keep course
-                        </Button>
-                        <Button variant="destructive" onClick={confirmDelete}>
-                            Delete
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+            <ConfirmDialog
+                open={toDelete !== null}
+                title="Delete this course?"
+                description={`${toDelete?.title ?? ''} will be removed. A course that has registrations cannot be deleted.`}
+                confirmLabel="Delete"
+                dismissLabel="Keep course"
+                onConfirm={confirmDelete}
+                onDismiss={() => setToDelete(null)}
+            />
         </AppLayout>
     );
 }
