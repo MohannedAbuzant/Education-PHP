@@ -11,6 +11,24 @@ export interface Course {
     enrolled?: number;
 }
 
+export type EnrollmentStatus = 'active' | 'cancelled';
+
+export interface CatalogCourse {
+    id: number;
+    title: string;
+    description: string | null;
+    seats: number;
+    seats_left: number;
+    starts_at: string;
+    my_status: EnrollmentStatus | null;
+}
+
+export interface Enrollment {
+    id: number;
+    status: EnrollmentStatus;
+    course: { id: number; title: string; starts_at: string };
+}
+
 export interface Paginated<T> {
     data: T[];
     links: { url: string | null; label: string; active: boolean }[];

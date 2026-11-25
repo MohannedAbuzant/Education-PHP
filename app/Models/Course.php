@@ -37,4 +37,15 @@ class Course extends Model
     {
         return $this->enrollments()->where('status', EnrollmentStatus::Active);
     }
+
+    /**
+     * Seats still free. Uses the `enrolled` count when the query loaded it
+     * (withCount) to avoid an extra query per course.
+     */
+    public function seatsLeft(): int
+    {
+        $taken = $this->enrolled ?? $this->activeEnrollments()->count();
+
+        return max(0, $this->seats - $taken);
+    }
 }
