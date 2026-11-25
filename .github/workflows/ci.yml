@@ -11,29 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          tools: composer:v2
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-
-      - name: Install dependencies
-        run: |
-          composer install --no-interaction --prefer-dist --no-progress
-          npm ci
-
-      - name: Build assets
-        run: npm run build
-
-      - name: Prepare app
-        run: |
-          cp .env.example .env
-          php artisan key:generate
+      - uses: ./.github/actions/setup-app
 
       - name: Code style (Pint)
         run: vendor/bin/pint --test
@@ -66,29 +44,7 @@ jobs:
       DB_PASSWORD: password
     steps:
       - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          tools: composer:v2
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-
-      - name: Install dependencies
-        run: |
-          composer install --no-interaction --prefer-dist --no-progress
-          npm ci
-
-      - name: Build assets
-        run: npm run build
-
-      - name: Prepare app
-        run: |
-          cp .env.example .env
-          php artisan key:generate
+      - uses: ./.github/actions/setup-app
 
       - name: Run tests against MySQL (includes the concurrent registration test)
         run: php artisan test
@@ -99,22 +55,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: shivammathur/setup-php@v2
+      # tsconfig.json maps `ziggy-js` to vendor/tightenco/ziggy, so the type check
+      # needs Composer's packages even though no PHP code runs in this job.
+      - uses: ./.github/actions/setup-app
         with:
-          php-version: '8.3'
-          tools: composer:v2
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-
-      # tsconfig.json maps `ziggy-js` to vendor/tightenco/ziggy, so the type
-      # check needs Composer's packages even though no PHP code runs here.
-      - name: Install PHP packages (for the ziggy-js types)
-        run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
-
-      - run: npm ci
+          composer-args: --no-scripts
+          build: 'false'
 
       - name: Lint
         run: npx eslint .
