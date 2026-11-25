@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\EnrollmentStatus;
 use Database\Factories\CourseFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,6 +27,24 @@ class Course extends Model
             'seats' => 'integer',
             'starts_at' => 'date:Y-m-d',
         ];
+    }
+
+    public const HAS_ENROLLMENTS_MESSAGE = 'This course has enrollments and cannot be deleted.';
+
+    /**
+     * Adds an `enrolled` count of active registrations to each course.
+     *
+     * @param  Builder<Course>  $query
+     */
+    public function scopeWithEnrolled(Builder $query): void
+    {
+        $query->withCount('activeEnrollments as enrolled');
+    }
+
+    /** Any registration counts, cancelled ones too: they are history we keep. */
+    public function hasEnrollments(): bool
+    {
+        return $this->enrollments()->exists();
     }
 
     public function enrollments(): HasMany

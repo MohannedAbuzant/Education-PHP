@@ -11,7 +11,10 @@ export interface Course {
     enrolled?: number;
 }
 
-export type EnrollmentStatus = 'active' | 'cancelled';
+export const ENROLLMENT_ACTIVE = 'active';
+export const ENROLLMENT_CANCELLED = 'cancelled';
+
+export type EnrollmentStatus = typeof ENROLLMENT_ACTIVE | typeof ENROLLMENT_CANCELLED;
 
 export interface CatalogCourse {
     id: number;

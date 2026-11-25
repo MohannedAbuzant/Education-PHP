@@ -7,7 +7,9 @@ FROM node:22-alpine AS assets
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-COPY . .
+COPY vite.config.js tsconfig.json components.json ./
+COPY resources ./resources
+COPY public ./public
 RUN npm run build
 
 # --- 2. Install PHP dependencies without dev packages ---------------------
