@@ -19,7 +19,9 @@ composer install   # needs PHP 8.3+ and Composer on the host; Sail then runs the
 ```
 
 Seeded accounts (password `password`): `admin@example.com` (admin) and
-`student@example.com` (student).
+`student@example.com` (student). The seeder also creates 6 sample courses and one enrollment.
+
+Admins manage courses at `/courses`. Students get a 403 there.
 
 Run tests: `./vendor/bin/sail artisan test` (or `php artisan test` with PHP 8.3+ on the host). Tests use in-memory SQLite, so they need no database.
 
@@ -41,7 +43,7 @@ Run tests: `./vendor/bin/sail artisan test` (or `php artisan test` with PHP 8.3+
 ## Roadmap
 
 1. Setup, login, roles (done)
-2. Data model and admin course screens
+2. Data model and admin course screens (done)
 3. Registration and cancellation
 4. REST API with Sanctum
 5. Tests and CI

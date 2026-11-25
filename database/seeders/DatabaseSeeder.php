@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,9 +22,16 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
-        User::factory()->create([
+        $student = User::factory()->create([
             'name' => 'Student',
             'email' => 'student@example.com',
+        ]);
+
+        $courses = Course::factory(6)->create();
+
+        Enrollment::factory()->create([
+            'user_id' => $student->id,
+            'course_id' => $courses->first()->id,
         ]);
     }
 }
