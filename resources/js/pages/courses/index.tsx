@@ -5,30 +5,23 @@ import InputError from '@/components/input-error';
 import Pagination from '@/components/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useConfirm } from '@/hooks/use-confirm';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type Course, type Paginated, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Pencil, Trash2 } from 'lucide-react';
-import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Courses', href: '/courses' }];
 
 export default function CourseIndex({ courses }: { courses: Paginated<Course> }) {
     const { errors } = usePage<SharedData & { errors: Record<string, string> }>().props;
-    // `target` stays set while the dialog animates closed, so its text never goes blank.
-    const [target, setTarget] = useState<Course | null>(null);
-    const [open, setOpen] = useState(false);
-
-    const askToDelete = (course: Course) => {
-        setTarget(course);
-        setOpen(true);
-    };
+    const confirm = useConfirm<Course>();
 
     const confirmDelete = () => {
-        if (!target) return;
-        router.delete(route('courses.destroy', target.id), {
+        if (!confirm.target) return;
+        router.delete(route('courses.destroy', confirm.target.id), {
             preserveScroll: true,
-            onFinish: () => setOpen(false),
+            onFinish: confirm.close,
         });
     };
 
@@ -84,7 +77,7 @@ export default function CourseIndex({ courses }: { courses: Paginated<Course> })
                                                     variant="ghost"
                                                     size="sm"
                                                     className="text-destructive hover:text-destructive"
-                                                    onClick={() => askToDelete(course)}
+                                                    onClick={() => confirm.ask(course)}
                                                 >
                                                     <Trash2 aria-hidden />
                                                     Delete
@@ -102,13 +95,13 @@ export default function CourseIndex({ courses }: { courses: Paginated<Course> })
             </div>
 
             <ConfirmDialog
-                open={open}
+                open={confirm.open}
                 title="Delete this course?"
-                description={`${target?.title ?? ''} will be removed. A course that has registrations cannot be deleted.`}
+                description={`${confirm.target?.title ?? ''} will be removed. A course that has registrations cannot be deleted.`}
                 confirmLabel="Delete"
                 dismissLabel="Keep course"
                 onConfirm={confirmDelete}
-                onDismiss={() => setOpen(false)}
+                onDismiss={confirm.close}
             />
         </AppLayout>
     );
