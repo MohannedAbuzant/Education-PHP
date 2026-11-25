@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type Course, type Paginated, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Courses', href: '/courses' }];
@@ -74,9 +75,18 @@ export default function CourseIndex({ courses }: { courses: Paginated<Course> })
                                             </td>
                                             <td className="px-4 py-3 text-right">
                                                 <Button variant="ghost" size="sm" asChild>
-                                                    <Link href={route('courses.edit', course.id)}>Edit</Link>
+                                                    <Link href={route('courses.edit', course.id)}>
+                                                        <Pencil aria-hidden />
+                                                        Edit
+                                                    </Link>
                                                 </Button>
-                                                <Button variant="ghost" size="sm" onClick={() => askToDelete(course)}>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="text-destructive hover:text-destructive"
+                                                    onClick={() => askToDelete(course)}
+                                                >
+                                                    <Trash2 aria-hidden />
                                                     Delete
                                                 </Button>
                                             </td>
