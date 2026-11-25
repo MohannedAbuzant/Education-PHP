@@ -2,10 +2,10 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { DOCUMENTATION_URL, REPOSITORY_URL } from '@/lib/links';
+import { footerNavItems } from '@/lib/footer-nav';
 import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, ClipboardList, Folder, GraduationCap, LayoutGrid, Library } from 'lucide-react';
+import { ClipboardList, GraduationCap, LayoutGrid, Library } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -34,19 +34,6 @@ const studentNavItems: NavItem[] = [
         title: 'My registrations',
         url: '/my-enrollments',
         icon: ClipboardList,
-    },
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        url: REPOSITORY_URL,
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        url: DOCUMENTATION_URL,
-        icon: BookOpen,
     },
 ];
 
