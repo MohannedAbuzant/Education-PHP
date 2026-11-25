@@ -16,6 +16,34 @@ Sentry.
 - A course cannot be overbooked, even when students register at the same moment.
 - A REST API with token login. See [docs/API.md](docs/API.md).
 
+## Screenshots
+
+Captured from the running app with the seeded demo data.
+
+### Admin
+
+| Course list | New course |
+|---|---|
+| ![Admin course list showing seats taken out of seats available, with a red badge on a full course](docs/screenshots/02-admin-courses.png) | ![New course form with title, description, seats and start date](docs/screenshots/03-admin-new-course.png) |
+
+| Confirm before deleting | A course with registrations cannot be deleted |
+|---|---|
+| ![Dialog asking to confirm deleting Databases and SQL](docs/screenshots/04a-admin-delete-confirmation.png) | ![Error message saying the course has enrollments and cannot be deleted](docs/screenshots/04-admin-delete-blocked.png) |
+
+### Student
+
+| Course catalog | My registrations |
+|---|---|
+| ![Catalog of course cards showing seats left, a Registered badge, and a disabled Register button on a full course](docs/screenshots/05-student-catalog.png) | ![List of the student's active registrations with Cancel buttons](docs/screenshots/06-student-registrations.png) |
+
+| Confirm before cancelling | On a phone |
+|---|---|
+| ![Dialog asking to confirm cancelling a registration](docs/screenshots/07-cancel-confirmation.png) | <img src="docs/screenshots/08-mobile-catalog.png" alt="The catalog on a 390 pixel wide phone screen" width="260"> |
+
+### Sign in
+
+![Login page](docs/screenshots/01-login.png)
+
 ## Getting started (Docker, recommended)
 
 ```bash
