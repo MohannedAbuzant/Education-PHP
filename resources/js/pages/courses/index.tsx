@@ -98,9 +98,7 @@ export default function CourseIndex({ courses }: { courses: Paginated<Course> })
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Delete this course?</DialogTitle>
-                        <DialogDescription>
-                            {toDelete?.title} will be removed. A course that has registrations cannot be deleted.
-                        </DialogDescription>
+                        <DialogDescription>{toDelete?.title} will be removed. A course that has registrations cannot be deleted.</DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setToDelete(null)}>

@@ -32,7 +32,11 @@ export default function MyEnrollments({ enrollments }: { enrollments: Enrollment
 
                 {enrollments.length === 0 ? (
                     <p className="text-muted-foreground text-sm">
-                        You have no registrations yet. <Link href={route('catalog.index')} className="underline">Browse the catalog</Link>.
+                        You have no registrations yet.{' '}
+                        <Link href={route('catalog.index')} className="underline">
+                            Browse the catalog
+                        </Link>
+                        .
                     </p>
                 ) : (
                     <ul className="divide-y rounded-md border">
