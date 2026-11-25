@@ -14,7 +14,7 @@ class CatalogController extends Controller
         $userId = $request->user()->id;
 
         $courses = Course::query()
-            ->withEnrolled()
+            ->withActiveEnrolled()
             ->with(['enrollments' => fn ($query) => $query->where('user_id', $userId)])
             ->orderBy('starts_at')
             ->paginate(9)

@@ -18,7 +18,7 @@ Sentry.
 
 ## Screenshots
 
-Captured from the running app with the seeded demo data.
+Captured from the running app with the seeded demo data. The student is registered for Laravel Fundamentals and React with Inertia, and Databases and SQL has been filled by two other students, so every screen shows the same seat counts.
 
 ### Admin
 
@@ -26,15 +26,15 @@ Captured from the running app with the seeded demo data.
 |---|---|
 | ![Admin course list showing seats taken out of seats available, with a red badge on a full course](docs/screenshots/02-admin-courses.png) | ![New course form with title, description, seats and start date](docs/screenshots/03-admin-new-course.png) |
 
-| Confirm before deleting | A course with registrations cannot be deleted |
+| Confirm before deleting | Databases and SQL has registrations, so it cannot be deleted |
 |---|---|
-| ![Dialog asking to confirm deleting Databases and SQL](docs/screenshots/04a-admin-delete-confirmation.png) | ![Error message saying the course has enrollments and cannot be deleted](docs/screenshots/04-admin-delete-blocked.png) |
+| ![Dialog asking to confirm deleting Databases and SQL](docs/screenshots/04a-admin-delete-confirmation.png) | ![Error message after confirming the deletion of Databases and SQL, which has registrations: the course has enrollments and cannot be deleted](docs/screenshots/04-admin-delete-blocked.png) |
 
 ### Student
 
 | Course catalog | My registrations |
 |---|---|
-| ![Catalog of course cards showing seats left, a Registered badge, and a disabled Register button on a full course](docs/screenshots/05-student-catalog.png) | ![List of the student's active registrations with Cancel buttons](docs/screenshots/06-student-registrations.png) |
+| ![Catalog right after registering for React with Inertia: a confirmation message, Registered badges on two courses, and a disabled Register button on the full Databases and SQL course](docs/screenshots/05-student-catalog.png) | ![List of the student's active registrations with Cancel buttons](docs/screenshots/06-student-registrations.png) |
 
 | Confirm before cancelling | On a phone |
 |---|---|

@@ -13,7 +13,7 @@ class CourseController extends Controller
     public function index(): Response
     {
         $courses = Course::query()
-            ->withEnrolled()
+            ->withActiveEnrolled()
             ->orderBy('starts_at')
             ->paginate(10);
 

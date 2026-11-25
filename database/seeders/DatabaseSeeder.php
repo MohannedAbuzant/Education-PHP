@@ -34,17 +34,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $courses = collect([
-            ['Laravel Fundamentals', 'Routing, controllers, Eloquent and migrations: build a real app from scratch.', 20, 2],
-            ['React with Inertia', 'Build single-page screens on a Laravel backend, without writing a separate API.', 16, 3],
-            ['Databases and SQL', 'Design tables, write joins and understand transactions and row locking.', 12, 4],
-            ['REST APIs with Sanctum', 'Token authentication, JSON resources, validation and clear status codes.', 18, 5],
-            ['Testing PHP Applications', 'Feature tests, factories and a CI pipeline that runs on every push.', 14, 6],
-            ['Docker for Developers', 'Containers, Compose and shipping a Laravel app to production.', 10, 8],
-        ])->map(fn (array $course) => Course::create([
-            'title' => $course[0],
-            'description' => $course[1],
-            'seats' => $course[2],
-            'starts_at' => now()->addWeeks($course[3]),
+            ['title' => 'Laravel Fundamentals', 'description' => 'Routing, controllers, Eloquent and migrations: build a real app from scratch.', 'seats' => 20, 'weeks_from_now' => 2],
+            ['title' => 'React with Inertia', 'description' => 'Build single-page screens on a Laravel backend, without writing a separate API.', 'seats' => 16, 'weeks_from_now' => 3],
+            ['title' => 'Databases and SQL', 'description' => 'Design tables, write joins and understand transactions and row locking.', 'seats' => 12, 'weeks_from_now' => 4],
+            ['title' => 'REST APIs with Sanctum', 'description' => 'Token authentication, JSON resources, validation and clear status codes.', 'seats' => 18, 'weeks_from_now' => 5],
+            ['title' => 'Testing PHP Applications', 'description' => 'Feature tests, factories and a CI pipeline that runs on every push.', 'seats' => 14, 'weeks_from_now' => 6],
+            ['title' => 'Docker for Developers', 'description' => 'Containers, Compose and shipping a Laravel app to production.', 'seats' => 10, 'weeks_from_now' => 8],
+        ])->map(fn (array $course) => Course::factory()->create([
+            'title' => $course['title'],
+            'description' => $course['description'],
+            'seats' => $course['seats'],
+            'starts_at' => now()->addWeeks($course['weeks_from_now']),
         ]));
 
         Enrollment::factory()->create([
