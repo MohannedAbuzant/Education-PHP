@@ -37,6 +37,14 @@ describe('My registrations page', () => {
         expect(router.delete).toHaveBeenCalledWith('/enrollments.destroy/3', expect.anything());
     });
 
+    it('names the course in the confirmation dialog', async () => {
+        render(<MyEnrollments enrollments={[enrollment({ course: { id: 1, title: 'React with Inertia', starts_at: '2027-01-10' } })]} />);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+
+        expect(await screen.findByText(/give up your seat in React with Inertia/)).toBeInTheDocument();
+    });
+
     it('keeps the seat when the dialog is dismissed', async () => {
         render(<MyEnrollments enrollments={[enrollment()]} />);
 

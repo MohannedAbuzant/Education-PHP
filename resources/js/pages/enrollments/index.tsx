@@ -11,13 +11,20 @@ import { useState } from 'react';
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'My registrations', href: '/my-enrollments' }];
 
 export default function MyEnrollments({ enrollments }: { enrollments: Enrollment[] }) {
-    const [toCancel, setToCancel] = useState<Enrollment | null>(null);
+    // `target` stays set while the dialog animates closed, so its text never goes blank.
+    const [target, setTarget] = useState<Enrollment | null>(null);
+    const [open, setOpen] = useState(false);
+
+    const askToCancel = (enrollment: Enrollment) => {
+        setTarget(enrollment);
+        setOpen(true);
+    };
 
     const confirmCancel = () => {
-        if (!toCancel) return;
-        router.delete(route('enrollments.destroy', toCancel.id), {
+        if (!target) return;
+        router.delete(route('enrollments.destroy', target.id), {
             preserveScroll: true,
-            onFinish: () => setToCancel(null),
+            onFinish: () => setOpen(false),
         });
     };
 
@@ -49,7 +56,7 @@ export default function MyEnrollments({ enrollments }: { enrollments: Enrollment
                                 <div className="flex items-center gap-3">
                                     <Badge variant={enrollment.status === ENROLLMENT_ACTIVE ? 'default' : 'secondary'}>{enrollment.status}</Badge>
                                     {enrollment.status === ENROLLMENT_ACTIVE && (
-                                        <Button variant="outline" size="sm" onClick={() => setToCancel(enrollment)}>
+                                        <Button variant="outline" size="sm" onClick={() => askToCancel(enrollment)}>
                                             Cancel
                                         </Button>
                                     )}
@@ -61,13 +68,13 @@ export default function MyEnrollments({ enrollments }: { enrollments: Enrollment
             </div>
 
             <ConfirmDialog
-                open={toCancel !== null}
+                open={open}
                 title="Cancel this registration?"
-                description={`You will give up your seat in ${toCancel?.course.title ?? ''}. You can register again later if a seat is free.`}
+                description={`You will give up your seat in ${target?.course.title ?? ''}. You can register again later if a seat is free.`}
                 confirmLabel="Cancel registration"
                 dismissLabel="Keep my seat"
                 onConfirm={confirmCancel}
-                onDismiss={() => setToCancel(null)}
+                onDismiss={() => setOpen(false)}
             />
         </AppLayout>
     );

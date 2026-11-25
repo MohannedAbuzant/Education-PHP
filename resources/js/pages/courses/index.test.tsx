@@ -57,6 +57,14 @@ describe('Admin course list', () => {
         expect(router.delete).toHaveBeenCalledWith('/courses.destroy/4', expect.anything());
     });
 
+    it('names the course in the confirmation dialog', async () => {
+        render(<CourseIndex courses={page([course({ title: 'Databases and SQL' })])} />);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Delete' }));
+
+        expect(await screen.findByText(/Databases and SQL will be removed/)).toBeInTheDocument();
+    });
+
     it('does not delete when the dialog is dismissed', async () => {
         render(<CourseIndex courses={page([course()])} />);
 

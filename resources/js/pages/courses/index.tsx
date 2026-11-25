@@ -8,19 +8,27 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type Course, type Paginated, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Courses', href: '/courses' }];
 
 export default function CourseIndex({ courses }: { courses: Paginated<Course> }) {
     const { errors } = usePage<SharedData & { errors: Record<string, string> }>().props;
-    const [toDelete, setToDelete] = useState<Course | null>(null);
+    // `target` stays set while the dialog animates closed, so its text never goes blank.
+    const [target, setTarget] = useState<Course | null>(null);
+    const [open, setOpen] = useState(false);
+
+    const askToDelete = (course: Course) => {
+        setTarget(course);
+        setOpen(true);
+    };
 
     const confirmDelete = () => {
-        if (!toDelete) return;
-        router.delete(route('courses.destroy', toDelete.id), {
+        if (!target) return;
+        router.delete(route('courses.destroy', target.id), {
             preserveScroll: true,
-            onFinish: () => setToDelete(null),
+            onFinish: () => setOpen(false),
         });
     };
 
@@ -67,9 +75,18 @@ export default function CourseIndex({ courses }: { courses: Paginated<Course> })
                                             </td>
                                             <td className="px-4 py-3 text-right">
                                                 <Button variant="ghost" size="sm" asChild>
-                                                    <Link href={route('courses.edit', course.id)}>Edit</Link>
+                                                    <Link href={route('courses.edit', course.id)}>
+                                                        <Pencil aria-hidden />
+                                                        Edit
+                                                    </Link>
                                                 </Button>
-                                                <Button variant="ghost" size="sm" onClick={() => setToDelete(course)}>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="text-destructive hover:text-destructive"
+                                                    onClick={() => askToDelete(course)}
+                                                >
+                                                    <Trash2 aria-hidden />
                                                     Delete
                                                 </Button>
                                             </td>
@@ -85,13 +102,13 @@ export default function CourseIndex({ courses }: { courses: Paginated<Course> })
             </div>
 
             <ConfirmDialog
-                open={toDelete !== null}
+                open={open}
                 title="Delete this course?"
-                description={`${toDelete?.title ?? ''} will be removed. A course that has registrations cannot be deleted.`}
+                description={`${target?.title ?? ''} will be removed. A course that has registrations cannot be deleted.`}
                 confirmLabel="Delete"
                 dismissLabel="Keep course"
                 onConfirm={confirmDelete}
-                onDismiss={() => setToDelete(null)}
+                onDismiss={() => setOpen(false)}
             />
         </AppLayout>
     );
